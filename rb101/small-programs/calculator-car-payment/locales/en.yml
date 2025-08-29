@@ -1,0 +1,12 @@
+en:
+  welcome_message: |
+    Welcome to the car payment calculator!
+    => We need three pieces of information from you.
+  loan_amount: "Please enter your loan amount:"
+  apr: "Next, enter your annual percentage rate (expressed as the percentage)"
+  loan_duration: "Finally, enter the loan duration (expressed in months)"
+  result: |
+    Your monthly payment is:
+    ------------------------
+    $%{monthly_payment}
+    ------------------------
