@@ -10,22 +10,45 @@ def prompt(message, **args)
 end
 
 def get_monthly_interest_rate(apr)
-  (apr / 100) / 12
+  (apr.to_f / 100) / 12
 end
 
 def get_car_payment(loan_amount, monthly_interest, loan_duration)
-  loan_amount * (monthly_interest / (1 - (1 + monthly_interest)**(-loan_duration)))
+  loan_amount.to_f * (monthly_interest / (1 - (1 + monthly_interest)**(-loan_duration.to_i)))
 end
 
-prompt('welcome_message')
-prompt('loan_amount')
-loan_amount = gets.to_i
-prompt('apr')
-apr = gets.to_f
-prompt('loan_duration')
-loan_duration = gets.to_i
+def valid_number?(number)
+  Float(number) >= 0
+rescue ArgumentError
+  false
+end
 
-monthly_interest = get_monthly_interest_rate(apr)
-monthly_payment = get_car_payment(loan_amount, monthly_interest, loan_duration)
+def get_user_input(item)
+  loop do
+    prompt(item)
+    input = gets.chomp
+    return input if valid_number?(input)
 
-prompt('result', monthly_payment: monthly_payment.round(2))
+    prompt('invalid_number')
+  end
+end
+
+def main
+  loop do
+    prompt('welcome_message')
+    loan_amount = get_user_input('loan_amount')
+    apr = get_user_input('apr')
+    loan_duration = get_user_input('loan_duration')
+
+    monthly_interest = get_monthly_interest_rate(apr)
+    monthly_payment = get_car_payment(loan_amount, monthly_interest, loan_duration)
+
+    prompt('result', monthly_payment: monthly_payment.round(2))
+    prompt('repeat')
+    repeat = gets.chomp
+    break unless repeat.downcase.start_with?('y')
+  end
+  prompt('bye')
+end
+
+main

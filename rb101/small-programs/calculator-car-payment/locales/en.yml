@@ -2,11 +2,20 @@ en:
   welcome_message: |
     Welcome to the car payment calculator!
     => We need three pieces of information from you.
-  loan_amount: "Please enter your loan amount:"
-  apr: "Next, enter your annual percentage rate (expressed as the percentage)"
-  loan_duration: "Finally, enter the loan duration (expressed in months)"
+  invalid_number: "Your input does not appear to be a valid, positive number. Please try again."
+  loan_amount: |
+    Please enter your loan amount in dollars:
+    => (ex: fifty thousand dollars = 50000)
+  apr: |
+    Next, enter your annual percentage rate as a percentage
+    => (ex: five and one-half percent = 5.5)
+  loan_duration: |
+    Finally, enter the loan duration expressed in months
+    => (ex: 1 year = 12)
   result: |
     Your monthly payment is:
     ------------------------
     $%{monthly_payment}
     ------------------------
+  repeat: "Do you want to perform another calculation? (y/n)"
+  bye: "Goodbye!"
