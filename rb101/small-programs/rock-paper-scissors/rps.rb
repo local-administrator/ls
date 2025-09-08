@@ -32,27 +32,31 @@ def read_user_input
   end
 end
 
-def win?(first, second)
+def win_round?(first, second)
   RULES[first.to_sym].include?(second)
 end
 
-def display_results(player, computer)
-  if win?(player.input, computer.input)
-    prompt('You won!')
+def win_match?(user, computer, number_to_win)
+  user.wins == number_to_win || computer.wins == number_to_win
+end
+
+def display_round_winner(player, computer)
+  if win_round?(player.input, computer.input)
+    prompt('You won the round!')
     player.wins += 1
-  elsif win?(computer.input, player.input)
-    prompt('Computer won!')
+  elsif win_round?(computer.input, player.input)
+    prompt('Computer won the round!')
     computer.wins += 1
   else
     prompt("It's a tie!")
   end
 end
 
-def determine_match_winner(user, computer, number_to_win)
+def display_match_winner(user, computer, number_to_win)
   if user.wins == number_to_win
-    prompt('You win the match!')
+    prompt('You won the match!')
   elsif computer.wins == number_to_win
-    prompt('Computer wins the match!')
+    prompt('Computer won the match!')
   end
 end
 
@@ -64,15 +68,20 @@ def rounds(number_to_win)
     computer.input = VALID_CHOICES.sample
 
     prompt("You chose: #{user.input}, computer chose: #{computer.input}")
-    display_results(user, computer)
-    break if determine_match_winner(user, computer, number_to_win)
+    display_round_winner(user, computer)
+    break if win_match?(user, computer, number_to_win)
   end
+  display_match_winner(user, computer, number_to_win)
+  prompt("Final score is:
+   User: #{user.wins}
+   Computer: #{computer.wins}
+    ")
 end
 
 def main
   loop do
     rounds(3)
-    prompt('Do you want to play again?')
+    prompt('Do you want to play again (y/n)?')
     answer = gets.chomp
     break unless answer.downcase.start_with?('y')
   end
